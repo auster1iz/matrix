@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext } from 'react'
 
-interface Props {
+interface TableContextProviderProps {
   children: ReactNode
 }
 
@@ -17,9 +17,12 @@ export const TableContext =
 
 export const useTableContext = () => useContext(TableContext)
 
-export const TableContextProvider = ({ children }: Props) => {
+export const TableContextProvider = ({
+  children,
+}: TableContextProviderProps) => {
   const value = {
     value: '',
   }
+
   return <TableContext.Provider value={value}>{children}</TableContext.Provider>
 }
