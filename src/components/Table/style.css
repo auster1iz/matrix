@@ -11,10 +11,16 @@
     text-align: center;
     padding: 12px;
 }
-.table-cell:hover {
+
+.table-cell-hover:hover {
     background: lightgray;
+    cursor: pointer;
 }
 
 .table-row-first {
     background: lightblue;
+}
+
+.table-cell-sum {
+    font-weight: bold;
 }

@@ -19,15 +19,17 @@ export const TablePage = () => {
             value={m}
             onChange={(e) => setM(e.target.value)}
             placeholder="M"
+            type="number"
           />
           <Button text="SET M" onClick={() => addRowsLength(m)} />
         </div>
 
         <div className="page_inputs-container">
           <Input
-            placeholder="N"
             value={n}
             onChange={(e) => setN(e.target.value)}
+            placeholder="N"
+            type="number"
           />
           <Button text="SET N" onClick={() => addColumnsLength(n)} />
         </div>

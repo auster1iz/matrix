@@ -11,7 +11,7 @@ import { generateId } from '../utils/id-generator'
 import { generateArray } from '../utils/generateArray'
 import { getRandomNumber } from '../utils/getRandomNumber'
 
-const MIN_NUMBER = 1
+const MIN_NUMBER = 100
 const MAX_NUMBER = 999
 
 interface TableContextProviderProps {
@@ -42,12 +42,12 @@ export const TableContextProvider = ({
   const [columnsLength, setColumnsLength] = useState<number>(0) // N
 
   const addRowsLength = useCallback((value: string) => {
-    const formattedValue = Number(value)
+    const formattedValue = parseInt(value)
     setRowsLength(formattedValue)
   }, [])
 
   const addColumnsLength = useCallback((value: string) => {
-    const formattedValue = Number(value)
+    const formattedValue = parseInt(value)
     setColumnsLength(formattedValue)
   }, [])
 
