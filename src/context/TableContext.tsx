@@ -3,16 +3,16 @@ import React, {
   ReactNode,
   useCallback,
   useContext,
-  useMemo,
+  useEffect,
   useState,
 } from 'react'
-import { Cell, Row } from '../types/cell'
+import { Cell, Row, RowId } from '../types/table'
 import { generateId } from '../utils/id-generator'
 import { generateArray } from '../utils/generateArray'
 import { getRandomNumber } from '../utils/getRandomNumber'
 
-const MIN_NUMBER = 100
-const MAX_NUMBER = 999
+const MIN = 100
+const MAX = 999
 
 interface TableContextProviderProps {
   children: ReactNode
@@ -21,13 +21,20 @@ interface TableContextProviderProps {
 interface InitialContextValuesType {
   addRowsLength: (value: string) => void
   addColumnsLength: (value: string) => void
-  matrix: Row[]
+  increaseCellValue: (rowIndex: number, cellIndex: number) => void
+  removeRow: (
+    event: React.MouseEvent<HTMLTableCellElement>,
+    rowId: number,
+  ) => void
+  renderMatrix: Row[]
 }
 
 const InitialContextValues: InitialContextValuesType = {
-  addRowsLength: (value) => null,
-  addColumnsLength: (value) => null,
-  matrix: [],
+  addRowsLength: () => null,
+  addColumnsLength: () => null,
+  increaseCellValue: () => null,
+  removeRow: () => null,
+  renderMatrix: [],
 }
 
 export const TableContext =
@@ -40,6 +47,7 @@ export const TableContextProvider = ({
 }: TableContextProviderProps) => {
   const [rowsLength, setRowsLength] = useState<number>(0) // M
   const [columnsLength, setColumnsLength] = useState<number>(0) // N
+  const [renderMatrix, setRenderMatrix] = useState<Row[]>([])
 
   const addRowsLength = useCallback((value: string) => {
     const formattedValue = parseInt(value)
@@ -51,32 +59,60 @@ export const TableContextProvider = ({
     setColumnsLength(formattedValue)
   }, [])
 
-  const matrix: Row[] = useMemo(() => {
+  const generateMatrix = useCallback(() => {
     if (rowsLength && columnsLength) {
-      return generateArray(rowsLength).reduce((acc, _, index) => {
+      const matrix = generateArray(rowsLength).reduce((arr) => {
         const row: Row = {
-          id: index,
+          id: generateId.next().value!,
           cells: [],
         }
         for (let i = 0; i < columnsLength; i++) {
           const cell: Cell = {
             id: generateId.next().value!,
-            value: Math.trunc(getRandomNumber(MIN_NUMBER, MAX_NUMBER)),
+            value: Math.trunc(getRandomNumber(MIN, MAX)),
           }
           row.cells.push(cell)
         }
-        acc.push(row)
-        return acc
+        arr.push(row)
+        return arr
       }, [])
-    } else {
-      return []
+
+      setRenderMatrix(matrix)
     }
   }, [rowsLength, columnsLength])
+
+  const increaseCellValue = useCallback(
+    (rowIndex: number, cellIndex: number) => {
+      setRenderMatrix((prev) => {
+        const newMatrix = [...prev]
+        const row = newMatrix[rowIndex]
+        const cell = row.cells[cellIndex]
+        cell.value = cell.value + 1
+        return newMatrix
+      })
+    },
+    [renderMatrix],
+  )
+
+  const removeRow = useCallback(
+    (event: React.MouseEvent<HTMLTableCellElement>, rowId: RowId) => {
+      event.stopPropagation()
+      const newMatrix = renderMatrix.filter((row) => row.id !== rowId)
+      setRenderMatrix(newMatrix)
+    },
+    [renderMatrix],
+  )
+
+  useEffect(() => {
+    generateMatrix()
+  }, [generateMatrix])
 
   const value = {
     addRowsLength,
     addColumnsLength,
-    matrix,
+    increaseCellValue,
+    removeRow,
+    renderMatrix,
   }
 
   return <TableContext.Provider value={value}>{children}</TableContext.Provider>

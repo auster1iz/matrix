@@ -1,5 +1,8 @@
 type CellId = number
-type CellValue = number
+
+export type CellValue = number
+
+export type RowId = CellId
 
 export type Cell = {
   id: CellId
@@ -7,6 +10,6 @@ export type Cell = {
 }
 
 export type Row = {
-  id: number
+  id: RowId
   cells: Cell[]
 }

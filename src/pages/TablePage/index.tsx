@@ -8,30 +8,30 @@ import Table from '../../components/Table'
 export const TablePage = () => {
   const { addRowsLength, addColumnsLength } = useTableContext()
 
-  const [m, setM] = useState('')
-  const [n, setN] = useState('')
+  const [mValue, setMValue] = useState('')
+  const [nValue, setNValue] = useState('')
 
   return (
     <div className="page">
       <div className="page_inputs">
         <div className="page_inputs-container">
           <Input
-            value={m}
-            onChange={(e) => setM(e.target.value)}
+            value={mValue}
+            onChange={(e) => setMValue(e.target.value)}
             placeholder="M"
             type="number"
           />
-          <Button text="SET M" onClick={() => addRowsLength(m)} />
+          <Button text="SET M" onClick={() => addRowsLength(mValue)} />
         </div>
 
         <div className="page_inputs-container">
           <Input
-            value={n}
-            onChange={(e) => setN(e.target.value)}
+            value={nValue}
+            onChange={(e) => setNValue(e.target.value)}
             placeholder="N"
             type="number"
           />
-          <Button text="SET N" onClick={() => addColumnsLength(n)} />
+          <Button text="SET N" onClick={() => addColumnsLength(nValue)} />
         </div>
       </div>
 

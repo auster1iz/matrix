@@ -34,6 +34,7 @@
         "import/no-named-as-default": 0,
         "import/newline-after-import": ["error", { "count": 1 }],
         "import/order": ["error", {"groups": ["type","object","builtin", "external","internal","parent","sibling","index"]}],
-        "prettier/prettier": ["error", { "tabWidth": 2 }]
+        "prettier/prettier": ["error", { "tabWidth": 2 }],
+        "@typescript-eslint/no-non-null-assertion": "off"
     }
 }
