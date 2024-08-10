@@ -41,6 +41,7 @@ export const TablePage = () => {
           placeholder="X"
           buttonText="SET X"
           onClick={() => addNearestValuesLength(parseInt(xValue))}
+          disabled={!renderMatrix.length}
         />
         <Button
           text="ADD ROW"

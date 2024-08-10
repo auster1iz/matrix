@@ -9,7 +9,7 @@ import React, {
 import { Cell, Row } from '../types/table'
 import { generateArray } from '../utils/generateArray'
 import { validateNumber } from '../utils/validateNumber'
-import { ERROR_MESSAGE, ERROR_MESSAGE_X } from '../constants'
+import { ERROR_MESSAGE, ERROR_MESSAGE_X, ONE_ELEMENT } from '../constants'
 import { generateRow } from '../utils/generateRow'
 
 interface TableContextProviderProps {
@@ -77,7 +77,7 @@ export const TableContextProvider = ({
 
   const addNearestValuesLength = useCallback(
     (value: number) => {
-      const maxValue = renderMatrix.flat(1).length - 1
+      const maxValue = rowsLength * columnsLength - ONE_ELEMENT
 
       if (value <= maxValue) {
         setNearestValuesLength(value)
@@ -85,7 +85,7 @@ export const TableContextProvider = ({
         alert(ERROR_MESSAGE_X + maxValue)
       }
     },
-    [renderMatrix],
+    [rowsLength, columnsLength],
   )
 
   const generateMatrix = useCallback(() => {
@@ -129,6 +129,8 @@ export const TableContextProvider = ({
         setRowsLength(0)
         setColumnsLength(0)
       }
+
+      setNearestValuesLength(0)
     },
     [renderMatrix],
   )

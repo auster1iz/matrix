@@ -2,15 +2,14 @@ import React, { useState } from 'react'
 import { useTableContext } from '../../context/TableContext'
 import './styles.css'
 import {
-  calculateAverageValue,
   calculateCellPercentage,
   calculateRowSum,
 } from '../../utils/table-calculations'
 import CellWithValue from './CellWithValue'
 import SumCell from './SumCell'
 import TitleCell from './TitleCell'
-
-const FIRST_ELEMENT = 0
+import AverageValuesRow from './AverageValuesRow'
+import HeaderRow from './HeaderRow'
 
 const Table = () => {
   const {
@@ -44,15 +43,7 @@ const Table = () => {
   return (
     <table className="table">
       <thead>
-        <tr className="table-row table-row-first">
-          <th />
-          {renderMatrix[FIRST_ELEMENT].map((cell, index) => (
-            <th className="table-cell" key={cell.id}>
-              Cell values N = {index + 1}
-            </th>
-          ))}
-          <th className="table-cell">Sum values</th>
-        </tr>
+        <HeaderRow />
       </thead>
 
       <tbody>
@@ -88,15 +79,7 @@ const Table = () => {
           </tr>
         ))}
 
-        <tr>
-          <th className="table-cell">Average values</th>
-
-          {renderMatrix[FIRST_ELEMENT].map((cell, index) => (
-            <th className="table-cell" key={cell.id}>
-              {calculateAverageValue(index, renderMatrix)}
-            </th>
-          ))}
-        </tr>
+        <AverageValuesRow />
       </tbody>
     </table>
   )

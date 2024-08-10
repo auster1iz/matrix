@@ -9,6 +9,7 @@ type Props = {
   onClick?: () => void
   buttonText: string
   placeholder: string
+  disabled?: boolean
 }
 
 const InputWithButton = ({
@@ -17,6 +18,7 @@ const InputWithButton = ({
   placeholder,
   onClick,
   onChange,
+  disabled = false,
 }: Props) => {
   return (
     <div className="input-with-button_container">
@@ -26,7 +28,7 @@ const InputWithButton = ({
         placeholder={placeholder}
         type="number"
       />
-      <Button text={buttonText} onClick={onClick} />
+      <Button text={buttonText} onClick={onClick} disabled={disabled} />
     </div>
   )
 }
