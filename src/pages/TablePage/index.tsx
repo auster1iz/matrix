@@ -6,11 +6,17 @@ import InputWithButton from '../../components/InputWithButton'
 import Button from '../../components/Button'
 
 export const TablePage = () => {
-  const { addRowsLength, addColumnsLength, addRow, renderMatrix } =
-    useTableContext()
+  const {
+    addRowsLength,
+    addColumnsLength,
+    addNearestValuesLength,
+    addRow,
+    renderMatrix,
+  } = useTableContext()
 
   const [mValue, setMValue] = useState('')
   const [nValue, setNValue] = useState('')
+  const [xValue, setXValue] = useState('')
 
   return (
     <div className="page">
@@ -20,14 +26,21 @@ export const TablePage = () => {
           onChange={(e) => setMValue(e.target.value)}
           placeholder="M"
           buttonText="SET M"
-          onClick={() => addRowsLength(mValue)}
+          onClick={() => addRowsLength(parseInt(mValue))}
         />
         <InputWithButton
           value={nValue}
           onChange={(e) => setNValue(e.target.value)}
           placeholder="N"
           buttonText="SET N"
-          onClick={() => addColumnsLength(nValue)}
+          onClick={() => addColumnsLength(parseInt(nValue))}
+        />
+        <InputWithButton
+          value={xValue}
+          onChange={(e) => setXValue(e.target.value)}
+          placeholder="X"
+          buttonText="SET X"
+          onClick={() => addNearestValuesLength(parseInt(xValue))}
         />
         <Button
           text="ADD ROW"

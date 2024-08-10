@@ -6,12 +6,21 @@ import {
   calculateCellPercentage,
   calculateRowSum,
 } from '../../utils/table-calculations'
-import CellWithValue from '../CellWithValue'
+import CellWithValue from './CellWithValue'
+import SumCell from './SumCell'
+import TitleCell from './TitleCell'
 
 const FIRST_ELEMENT = 0
 
 const Table = () => {
-  const { renderMatrix, removeRow, increaseCellValue } = useTableContext()
+  const {
+    renderMatrix,
+    removeRow,
+    increaseCellValue,
+    findNearestValues,
+    clearNearestValues,
+    nearestValues,
+  } = useTableContext()
 
   const [isSumHovered, setIsSumHovered] = useState<boolean>(false)
   const [hoveredRow, setHoveredRow] = useState<null | number>(null)
@@ -49,18 +58,19 @@ const Table = () => {
       <tbody>
         {renderMatrix.map((row, rowIndex) => (
           <tr key={rowIndex}>
-            <td
-              className="table-cell table-cell-hover"
+            <TitleCell
+              value={`Cell Value M = ${rowIndex + 1}`}
               onClick={(event) => removeRow(event, rowIndex)}
-            >
-              Cell Value M = {rowIndex + 1}
-            </td>
+            />
 
             {row.map((cell, cellIndex) => (
               <CellWithValue
                 key={cell.id}
                 cell={cell}
+                onPointerOver={() => findNearestValues(cell)}
+                onPointerLeave={clearNearestValues}
                 showPercents={shouldShowPercents(rowIndex)}
+                highlightBackground={nearestValues.includes(cell.id)}
                 onClick={() => increaseCellValue(rowIndex, cellIndex)}
                 percentage={calculateCellPercentage(
                   rowIndex,
@@ -70,13 +80,11 @@ const Table = () => {
               />
             ))}
 
-            <td
-              className="table-cell table-cell-sum table-cell-hover"
+            <SumCell
               onPointerEnter={() => hoverSum(rowIndex)}
               onPointerLeave={unHoverSum}
-            >
-              {calculateRowSum(rowIndex, renderMatrix)}
-            </td>
+              value={calculateRowSum(rowIndex, renderMatrix)}
+            />
           </tr>
         ))}
 
