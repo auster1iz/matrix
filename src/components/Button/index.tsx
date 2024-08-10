@@ -6,9 +6,9 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string
 }
 
-const Button = ({ onClick, text }: Props) => {
+const Button = ({ onClick, text, disabled }: Props) => {
   return (
-    <button onClick={onClick} className="button">
+    <button onClick={onClick} className="button" disabled={disabled}>
       {text}
     </button>
   )

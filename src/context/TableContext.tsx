@@ -28,6 +28,7 @@ interface InitialContextValuesType {
     event: React.MouseEvent<HTMLTableCellElement>,
     rowId: number,
   ) => void
+  addRow: () => void
   renderMatrix: Row[]
 }
 
@@ -36,6 +37,7 @@ const InitialContextValues: InitialContextValuesType = {
   addColumnsLength: () => null,
   increaseCellValue: () => null,
   removeRow: () => null,
+  addRow: () => null,
   renderMatrix: [],
 }
 
@@ -69,17 +71,23 @@ export const TableContextProvider = ({
     }
   }, [])
 
+  const generateRow = useCallback(() => {
+    const row: Row = []
+    for (let i = 0; i < columnsLength; i++) {
+      const cell: Cell = {
+        id: generateId.next().value!,
+        value: Math.trunc(getRandomNumber(MIN, MAX)),
+      }
+      row.push(cell)
+    }
+
+    return row
+  }, [columnsLength])
+
   const generateMatrix = useCallback(() => {
     if (rowsLength && columnsLength) {
       const matrix = generateArray(rowsLength).reduce((arr) => {
-        const row: Row = []
-        for (let i = 0; i < columnsLength; i++) {
-          const cell: Cell = {
-            id: generateId.next().value!,
-            value: Math.trunc(getRandomNumber(MIN, MAX)),
-          }
-          row.push(cell)
-        }
+        const row = generateRow()
         arr.push(row)
         return arr
       }, [])
@@ -101,6 +109,11 @@ export const TableContextProvider = ({
     [renderMatrix],
   )
 
+  const addRow = useCallback(() => {
+    const row = generateRow()
+    setRenderMatrix((prev) => [...prev, row])
+  }, [renderMatrix])
+
   const removeRow = useCallback(
     (event: React.MouseEvent<HTMLTableCellElement>, rowIndex: number) => {
       event.stopPropagation()
@@ -119,6 +132,7 @@ export const TableContextProvider = ({
     addColumnsLength,
     increaseCellValue,
     removeRow,
+    addRow,
     renderMatrix,
   }
 

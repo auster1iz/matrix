@@ -3,9 +3,11 @@ import './styles.css'
 import { useTableContext } from '../../context/TableContext'
 import Table from '../../components/Table'
 import InputWithButton from '../../components/InputWithButton'
+import Button from '../../components/Button'
 
 export const TablePage = () => {
-  const { addRowsLength, addColumnsLength } = useTableContext()
+  const { addRowsLength, addColumnsLength, addRow, renderMatrix } =
+    useTableContext()
 
   const [mValue, setMValue] = useState('')
   const [nValue, setNValue] = useState('')
@@ -26,6 +28,11 @@ export const TablePage = () => {
           placeholder="N"
           buttonText="SET N"
           onClick={() => addColumnsLength(nValue)}
+        />
+        <Button
+          text="ADD ROW"
+          onClick={addRow}
+          disabled={!renderMatrix.length}
         />
       </div>
 
