@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { useTableContext } from '../../context/TableContext'
-import './style.css'
+import './styles.css'
 import {
   calculateAverageValue,
   calculateCellPercentage,
   calculateRowSum,
 } from '../../utils/table-calculations'
-import { RowId } from '../../types/table'
 import CellWithValue from '../CellWithValue'
 
 const FIRST_ELEMENT = 0
@@ -15,7 +14,7 @@ const Table = () => {
   const { renderMatrix, removeRow, increaseCellValue } = useTableContext()
 
   const [isSumHovered, setIsSumHovered] = useState<boolean>(false)
-  const [hoveredRow, setHoveredRow] = useState<null | RowId>(null)
+  const [hoveredRow, setHoveredRow] = useState<null | number>(null)
 
   const hoverSum = (rowId: number) => {
     setIsSumHovered(true)
@@ -27,8 +26,8 @@ const Table = () => {
     setHoveredRow(null)
   }
 
-  const shouldShowPercents = (rowId: RowId) => {
-    return isSumHovered && rowId === hoveredRow
+  const shouldShowPercents = (rowIndex: number) => {
+    return isSumHovered && rowIndex === hoveredRow
   }
 
   if (!renderMatrix.length) return null
@@ -38,7 +37,7 @@ const Table = () => {
       <thead>
         <tr className="table-row table-row-first">
           <th />
-          {renderMatrix[FIRST_ELEMENT].cells.map((cell, index) => (
+          {renderMatrix[FIRST_ELEMENT].map((cell, index) => (
             <th className="table-cell" key={cell.id}>
               Cell values N = {index + 1}
             </th>
@@ -49,22 +48,22 @@ const Table = () => {
 
       <tbody>
         {renderMatrix.map((row, rowIndex) => (
-          <tr key={row.id}>
+          <tr key={rowIndex}>
             <td
               className="table-cell table-cell-hover"
-              onClick={(event) => removeRow(event, row.id)}
+              onClick={(event) => removeRow(event, rowIndex)}
             >
               Cell Value M = {rowIndex + 1}
             </td>
 
-            {row.cells.map((cell, cellIndex) => (
+            {row.map((cell, cellIndex) => (
               <CellWithValue
                 key={cell.id}
                 cell={cell}
-                showPercents={shouldShowPercents(row.id)}
+                showPercents={shouldShowPercents(rowIndex)}
                 onClick={() => increaseCellValue(rowIndex, cellIndex)}
                 percentage={calculateCellPercentage(
-                  row.id,
+                  rowIndex,
                   renderMatrix,
                   cell.value,
                 )}
@@ -73,10 +72,10 @@ const Table = () => {
 
             <td
               className="table-cell table-cell-sum table-cell-hover"
-              onPointerEnter={() => hoverSum(row.id)}
+              onPointerEnter={() => hoverSum(rowIndex)}
               onPointerLeave={unHoverSum}
             >
-              {calculateRowSum(row.id, renderMatrix)}
+              {calculateRowSum(rowIndex, renderMatrix)}
             </td>
           </tr>
         ))}
@@ -84,7 +83,7 @@ const Table = () => {
         <tr>
           <th className="table-cell">Average values</th>
 
-          {renderMatrix[FIRST_ELEMENT].cells.map((cell, index) => (
+          {renderMatrix[FIRST_ELEMENT].map((cell, index) => (
             <th className="table-cell" key={cell.id}>
               {calculateAverageValue(index, renderMatrix)}
             </th>

@@ -12,11 +12,6 @@
     margin: 0 auto;
 }
 
-.page_inputs-container {
-    display: flex;
-    gap: 16px;
-}
-
 .page_table-container {
     margin: 40px auto 0 auto;
     padding-inline: 80px;

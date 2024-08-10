@@ -1,4 +1,4 @@
-import { CellValue, Row, RowId } from '../types/table'
+import { CellValue, Row } from '../types/table'
 
 const HUNDRED_PERCENTS = 100
 
@@ -6,37 +6,29 @@ export const calculateAverageValue = (columnIndex: number, matrix: Row[]) => {
   let sumOfColumnsValues = 0
 
   matrix.forEach((row) => {
-    const cell = row.cells[columnIndex]
+    const cell = row[columnIndex]
     sumOfColumnsValues += cell.value
   })
 
   return (sumOfColumnsValues / matrix.length).toFixed(1)
 }
 
-export const calculateRowSum = (rowId: RowId, matrix: Row[]) => {
-  const row = matrix.find((row) => row.id === rowId)
+export const calculateRowSum = (rowIndex: number, matrix: Row[]) => {
+  const row = matrix[rowIndex]
 
-  if (row) {
-    return row.cells.reduce((sum, current) => {
-      sum += current.value
-      return sum
-    }, 0)
-  }
-
-  return 0
+  return row.reduce((sum, current) => {
+    sum += current.value
+    return sum
+  }, 0)
 }
 
 export const calculateCellPercentage = (
-  rowId: number,
+  rowIndex: number,
   matrix: Row[],
   cellValue: CellValue,
 ) => {
-  const row = matrix.find((row) => row.id === rowId)
+  const row = matrix[rowIndex]
 
-  if (row) {
-    const cellsValuesSum = row.cells.reduce((sum, cell) => sum + cell.value, 0)
-    return ((cellValue * HUNDRED_PERCENTS) / cellsValuesSum).toFixed(2)
-  }
-
-  return '0'
+  const cellsValuesSum = row.reduce((sum, cell) => sum + cell.value, 0)
+  return ((cellValue * HUNDRED_PERCENTS) / cellsValuesSum).toFixed(2)
 }
