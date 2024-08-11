@@ -1,6 +1,7 @@
 {
   "name": "table",
   "version": "0.1.0",
+  "homepage": "https://auster1iz.github.io/table-matrix",
   "private": true,
   "dependencies": {
     "-": "^0.0.1",
