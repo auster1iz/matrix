@@ -106,7 +106,7 @@ export const TableContextProvider = ({
         const newMatrix = [...prev]
         const row = newMatrix[rowIndex]
         const cell = row[cellIndex]
-        cell.value = cell.value + 1
+        cell.amount = cell.amount + 1
         return newMatrix
       })
     },
@@ -140,7 +140,7 @@ export const TableContextProvider = ({
       const cells = renderMatrix.flat(1).filter((c) => c.id !== cell.id)
       const differences = cells.map((c) => ({
         cell: c,
-        difference: Math.abs(c.value - cell.value),
+        difference: Math.abs(c.amount - cell.amount),
       }))
 
       differences.sort((a, b) => a.difference - b.difference)

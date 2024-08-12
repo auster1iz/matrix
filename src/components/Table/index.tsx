@@ -66,7 +66,7 @@ const Table = () => {
                 percentage={calculateCellPercentage(
                   rowIndex,
                   renderMatrix,
-                  cell.value,
+                  cell.amount,
                 )}
               />
             ))}

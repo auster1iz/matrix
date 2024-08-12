@@ -8,7 +8,7 @@ export const generateRow = (columnsLength: number) => {
   for (let i = 0; i < columnsLength; i++) {
     const cell: Cell = {
       id: generateId.next().value!,
-      value: Math.trunc(getRandomNumber(MIN, MAX)),
+      amount: Math.trunc(getRandomNumber(MIN, MAX)),
     }
     row.push(cell)
   }

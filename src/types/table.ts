@@ -4,7 +4,7 @@ export type CellValue = number
 
 export type Cell = {
   id: CellId
-  value: CellValue
+  amount: CellValue
 }
 
 export type Row = Cell[]

@@ -7,7 +7,7 @@ export const calculateAverageValue = (columnIndex: number, matrix: Row[]) => {
 
   matrix.forEach((row) => {
     const cell = row[columnIndex]
-    sumOfColumnsValues += cell.value
+    sumOfColumnsValues += cell.amount
   })
 
   return (sumOfColumnsValues / matrix.length).toFixed(1)
@@ -17,7 +17,7 @@ export const calculateRowSum = (rowIndex: number, matrix: Row[]) => {
   const row = matrix[rowIndex]
 
   return row.reduce((sum, current) => {
-    sum += current.value
+    sum += current.amount
     return sum
   }, 0)
 }
@@ -29,6 +29,6 @@ export const calculateCellPercentage = (
 ) => {
   const row = matrix[rowIndex]
 
-  const cellsValuesSum = row.reduce((sum, cell) => sum + cell.value, 0)
+  const cellsValuesSum = row.reduce((sum, cell) => sum + cell.amount, 0)
   return ((cellValue * HUNDRED_PERCENTS) / cellsValuesSum).toFixed(2)
 }

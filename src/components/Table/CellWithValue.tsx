@@ -25,7 +25,7 @@ const CellWithValue = ({
   const gradientOffset = Number(percentage) + OFFSET_PERCENTAGE
   const gradientValue = `linear-gradient(180deg, rgba(175,224,255,1) ${percentage}%, rgba(252,251,252,1) ${gradientOffset}%)`
   const renderGradient = showPercents ? gradientValue : ''
-  const renderedCellValue = showPercents ? percentage + '%' : cell.value
+  const renderedCellValue = showPercents ? percentage + '%' : cell.amount
   const highlightedBg = highlightBackground ? 'lightgreen' : ''
 
   return (
